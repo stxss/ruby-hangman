@@ -1,12 +1,20 @@
 module GameLogic
   def ask_guess
     puts "Enter your guess [a-z]"
+    puts "If you want to save the game, enter 'save' or 'quit' if you want to exit without saving"
     response = ""
     loop do
       response = gets.chomp.downcase
       break if /[[:alpha:]]+/.match?(response)
     end
-    check_guess(response)
+    if response == "save"
+        puts "save"
+    elsif response == "quit"
+        puts "\nSorry to see you go! Thank you for playing Hangman!"
+        exit
+    else
+        check_guess(response)
+    end
   end
 
   def check_guess(letter)
@@ -18,6 +26,7 @@ module GameLogic
       print_board(@new_encrypted.join(""))
       @is_winner = true
     end
+
     if !letters.any?(letter) && @full_guess != letters
       @guesses -= 1
       @incorrect_letters.push(letter)
