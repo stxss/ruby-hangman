@@ -18,7 +18,10 @@ module GameLogic
       print_board(@new_encrypted.join(""))
       @is_winner = true
     end
-    @guesses -= 1 if !letters.any?(letter) && @full_guess != letters
+    if !letters.any?(letter) && @full_guess != letters
+        @guesses -= 1
+        @incorrect_letters.push(letter)
+    end
     update_print(letters, letter)
     @game_end = true if @guesses.zero?
   end
@@ -30,10 +33,7 @@ module GameLogic
       end
     end
     print_board(@new_encrypted.join(""))
-    puts "#{letter.length}"
-    puts "#{@secret_word}"
-    puts "#{@full_guess}"
-    puts "#{letters}"
+
     if @new_encrypted.join("") == @secret_word
       @is_winner = true
     end

@@ -16,6 +16,7 @@ class Hangman
     @guesses = 6
     @word_encrpyted = "_" * @length
     @new_encrypted = Array.new(@secret_word.length, "_")
+    @incorrect_letters = []
 
     Intro.new
     press_to_continue
