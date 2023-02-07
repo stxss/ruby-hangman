@@ -19,8 +19,8 @@ module GameLogic
       @is_winner = true
     end
     if !letters.any?(letter) && @full_guess != letters
-        @guesses -= 1
-        @incorrect_letters.push(letter)
+      @guesses -= 1
+      @incorrect_letters.push(letter)
     end
     update_print(letters, letter)
     @game_end = true if @guesses.zero?

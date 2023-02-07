@@ -6,7 +6,7 @@ class Hangman
   include GameLogic
   include Display
 
-  attr_accessor :secret_word, :is_winner, :game_end, :response, :guesses, :length, :word_encrpyted
+  attr_accessor :secret_word, :is_winner, :game_end, :response, :guesses, :length, :word_encrpyted, :type_of_game
 
   def initialize
     @secret_word = get_word
@@ -17,14 +17,21 @@ class Hangman
     @word_encrpyted = "_" * @length
     @new_encrypted = Array.new(@secret_word.length, "_")
     @incorrect_letters = []
+    @type_of_game = ""
 
     Intro.new
-    press_to_continue
-    print_board(word_encrpyted)
+    choose_type
 
-    loop do
-      ask_guess
-      break if @is_winner || @game_end
+    # New game
+    if @type_of_game == "1"
+      print_board(word_encrpyted)
+      loop do
+        ask_guess
+        break if @is_winner || @game_end
+      end
+    elsif @type_of_game == "2"
+      # Load game
+      puts "loading!"
     end
 
     if @is_winner
@@ -45,10 +52,12 @@ class Hangman
     word
   end
 
-  def press_to_continue
-    puts "Press any key to start the game"
-    $stdin.getch
-    print "            \r"
+  def choose_type
+    loop do
+      @type_of_game = gets.chomp
+
+      break if @type_of_game == "1" || @type_of_game == "2"
+    end
   end
 
   def delete

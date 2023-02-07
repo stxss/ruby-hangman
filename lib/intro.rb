@@ -22,6 +22,11 @@ class Intro
 
       If the word is correct, the game is over and the guesser wins.
 
+      Select the option that you would like to play
+
+      [1] Play a new game
+      [2] Load an existing game
+      
     HEREDOC
   end
 end
