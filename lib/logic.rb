@@ -8,12 +8,27 @@ module GameLogic
       break if /[[:alpha:]]+/.match?(response)
     end
     if response == "save"
-        puts "save"
+      filename = nil
+      user_filename = nil
+      puts "\nEnter the name of how you want to save the file or press the 'Enter' key for a random filename generation"
+      loop do
+        user_filename = gets.chomp.downcase
+        break if /[[:alpha:]]+/.match?(response)
+      end
+      if user_filename == ""
+        names = 3.times.map { open("google-10000-english.txt").readlines.sample.strip }
+        filename = names.join("_")
+      elsif user_filename != ""
+        filename = user_filename
+      end
+      puts "Your file was saved as '#{filename}.txt'. It is located in the 'saved' folder"
+      puts "Thanks for playing! Come back anytime :)"
+      exit
     elsif response == "quit"
-        puts "\nSorry to see you go! Thank you for playing Hangman!"
-        exit
+      puts "\nSorry to see you go! Thank you for playing Hangman!"
+      exit
     else
-        check_guess(response)
+      check_guess(response)
     end
   end
 
