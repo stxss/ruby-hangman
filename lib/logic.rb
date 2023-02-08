@@ -3,27 +3,14 @@ module GameLogic
     puts "Enter your guess [a-z]"
     puts "If you want to save the game, enter 'save' or 'quit' if you want to exit without saving"
     response = ""
+
     loop do
       response = gets.chomp.downcase
       break if /[[:alpha:]]+/.match?(response)
     end
+
     if response == "save"
-      filename = nil
-      user_filename = nil
-      puts "\nEnter the name of how you want to save the file or press the 'Enter' key for a random filename generation"
-      loop do
-        user_filename = gets.chomp.downcase
-        break if /[[:alpha:]]+/.match?(response)
-      end
-      if user_filename == ""
-        names = 3.times.map { open("google-10000-english.txt").readlines.sample.strip }
-        filename = names.join("_")
-      elsif user_filename != ""
-        filename = user_filename
-      end
-      puts "Your file was saved as '#{filename}.txt'. It is located in the 'saved' folder"
-      puts "Thanks for playing! Come back anytime :)"
-      exit
+      save_file
     elsif response == "quit"
       puts "\nSorry to see you go! Thank you for playing Hangman!"
       exit
@@ -61,6 +48,26 @@ module GameLogic
     if @new_encrypted.join("") == @secret_word
       @is_winner = true
     end
+  end
+
+  def save_file
+    filename = nil
+    user_filename = nil
+    puts "\nEnter the name of how you want to save the file or press the 'Enter' key for a random filename generation"
+    loop do
+      user_filename = gets.chomp.downcase
+      break if /[[:alpha:]]+/.match?(user_filename) || user_filename == ""
+    end
+
+    if user_filename == ""
+      names = 3.times.map { open("google-10000-english.txt").readlines.sample.strip }
+      filename = names.join("_")
+    elsif user_filename != ""
+      filename = user_filename
+    end
+    puts "\nYour file was saved as '#{filename}.txt'. It is located in the 'saved' folder."
+    puts "Thanks for playing! Come back anytime :)"
+    exit
   end
 
   def restart
