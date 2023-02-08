@@ -8,7 +8,7 @@ module Display
     puts "          #{to_print}           "
     puts "                                   "
     puts "                                   "
-    puts "Incorrect letters : #{@incorrect_letters.join(" ")}  "
+    puts "Incorrect guesses : #{@incorrect_letters.join(" ")}  "
     puts "                                   "
   end
 end
