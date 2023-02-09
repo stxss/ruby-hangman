@@ -1,4 +1,4 @@
----
+--- !ruby/object:Hangman
 secret_word: momentum
 game_end: false
 is_winner: false

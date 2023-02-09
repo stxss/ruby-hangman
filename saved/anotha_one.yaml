@@ -1,4 +1,4 @@
----
+--- !ruby/object:Hangman
 secret_word: sperm
 game_end: false
 is_winner: false
