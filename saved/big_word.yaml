@@ -1,0 +1,23 @@
+--- !ruby/object:Hangman
+secret_word: trackbacks
+length: 10
+is_winner: false
+game_end: false
+guesses: 5
+word_encrpyted: __________
+new_encrypted:
+- _
+- _
+- _
+- _
+- _
+- _
+- _
+- _
+- _
+- s
+incorrect_letters:
+- v
+type_of_game: '1'
+full_guess:
+- v
