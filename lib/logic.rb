@@ -1,3 +1,6 @@
+require "io/console"
+require "yaml"
+
 # Module for the game's logic
 module GameLogic
   # Method to ask for a guess of a letter or of the whole word
@@ -9,7 +12,7 @@ module GameLogic
     # Ask for input until the answer has alphabetic characters, rejecting anything that contains a number
     loop do
       response = gets.chomp.downcase
-      break if /^[a-zA-Z]+$/.match?(response)
+      break if /^[a-zA-Z]+$/.match?(response) && !@incorrect_letters.any?(response)
     end
 
     # If the user enters the word 'save', save the current game as it is
@@ -33,7 +36,8 @@ module GameLogic
     # If the arrays of the secret word and the current guess are equal, the player won the game, as it means each letter is correctly guessed
     if @full_guess == letters
       @new_encrypted = @full_guess
-      print_board(@new_encrypted.join(""))
+      @new_encrypted.to_s
+      print_board(@new_encrypted)
       @is_winner = true
     end
 
@@ -57,11 +61,13 @@ module GameLogic
         @new_encrypted[idx] = letter
       end
     end
+
+    to_print = @new_encrypted.join("")
     # Print the display with the new guessed letters
-    print_board(@new_encrypted.join(""))
+    print_board(to_print)
 
     # If the encrypted word is equal to the secret word, it means the player guessed all the letters and won the game
-    if @new_encrypted.join("") == @secret_word
+    if to_print == @secret_word
       @is_winner = true
     end
   end
@@ -76,23 +82,68 @@ module GameLogic
     # Ask for a filename until it has letters/numbers or is an empty string in case the user presses the 'Enter' key without typing out anything
     loop do
       user_filename = gets.chomp.downcase
-      break if /[[:alpha:]]+/.match?(user_filename) || user_filename == ""
+
+      if /^[a-zA-Z]+$/.match?(user_filename) || user_filename == ""
+        # Check for the existence of a file with that name already
+        if File.file?("saved/#{user_filename}.yaml")
+          puts "\nA file with that name already exists. Please enter another name:"
+          next
+        end
+        break
+      end
     end
 
     # If the string is empty, choose 2 random words (that can be the same) from the list of google words and join them with an underscore symbol to create a file name
     if user_filename == ""
       names = 2.times.map { open("google-10000-english.txt").readlines.sample.strip }
-      filename = names.join("_")
-      # TODO add check to see if a file with that name doesn't already exist
+      if !File.file?("saved/#{names.join("_")}.yaml")
+        filename = names.join("_")
+      end
     elsif user_filename != ""
       # If it is not an empty string, assign it to what the user wants
       filename = user_filename
-      # TODO add check to see if a file with that name doesn't already exist
     end
 
-    puts "\nYour file was saved as '#{filename}.txt'. It is located in the 'saved' folder."
+    to_save = open("saved/#{filename}.yaml", "w")
+    to_save.puts(to_yaml)
+    to_save.close
+
+    puts "\nYour file was saved as '#{filename}.yaml'. It is located in the 'saved' folder."
     puts "Thanks for playing! Come back anytime :)"
     exit
+  end
+
+  # Method to serialize into the YAML format
+  def to_yaml
+    YAML.dump({
+      "secret_word"       => @secret_word,
+      "game_end"          => @is_winner,
+      "is_winner"         => @game_end,
+      "guesses"           => @guesses,
+      "new_encrypted"     => @new_encrypted,
+      "incorrect_letters" => @incorrect_letters,
+      "full_guess"        => @full_guess
+    })
+  end
+
+  # Method to deserialize and load the game
+  def load_game(path)
+    # Read the file and load it
+    file = YAML.safe_load(File.read(path), permitted_classes: [Hangman])
+
+    # Assign the variables from the file as the new variables, overwriting the old ones, effectively "loading a game"
+    @secret_word = file.secret_word
+    @guesses = file.guesses
+    @new_encrypted = file.new_encrypted
+    @incorrect_letters = file.incorrect_letters
+    @full_guess = file.full_guess
+
+    # Continuing until there is a winner or the game ends, standard game procedure
+    print_board(new_encrypted.join(""))
+    loop do
+      ask_guess
+      break if @is_winner || @game_end
+    end
   end
 
   # Method to restart the game
