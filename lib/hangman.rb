@@ -40,11 +40,29 @@ class Hangman
       end
     elsif @type_of_game == "2"
       # If it's 2, load a saved game
-      puts "Select a file to load the game from:\n\n"
+      puts "Select the number corresponding to the file to load the game from:\n\n"
+
+      # Iterate over each file that's saved and display it on screen
       Dir.each_child("saved").each_with_index do |i, idx|
         puts "#{"[#{idx + 1}]".bold.fg_color(:light_blue)} #{i}"
       end
 
+      # Count the number of files in the saved folder
+      filecount = Dir[File.join("saved", '**', '*')].count { |file| File.file?(file) }
+
+      #Ask for a valid input until the user's answer is one of the saved files
+      @chosen_file = ""
+      all_files = Dir.entries("saved").select { |f| !File.directory? f }
+
+      loop do
+        @chosen_file = gets.chomp.to_i
+        break if @chosen_file.between?(1, filecount)
+      end
+
+      selected_file = all_files[@chosen_file - 1]
+      path = "saved/#{selected_file}"
+
+      puts "saved/#{selected_file}"
       load_game(path)
     end
 
