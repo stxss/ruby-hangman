@@ -10,7 +10,7 @@ class Hangman
   include Display
   using TextStyles
 
-  attr_accessor :secret_word, :is_winner, :game_end, :response, :guesses, :length, :word_encrpyted, :new_encrypted, :full_guess,
+  attr_accessor :secret_word, :is_winner, :game_end, :response, :guesses, :length, :word_encrypted, :new_encrypted, :full_guess,
     :type_of_game, :incorrect_letters
 
   def initialize
@@ -19,7 +19,7 @@ class Hangman
     @is_winner = false
     @game_end = false
     @guesses = 6
-    @word_encrpyted = "_" * @length
+    @word_encrypted = "_" * @length
     @new_encrypted = Array.new(@secret_word.length, "_")
     @incorrect_letters = []
     @type_of_game = ""
@@ -31,7 +31,7 @@ class Hangman
     # If the type is 1, create a new game
     if @type_of_game == "1"
       # Set up the first board
-      print_board(word_encrpyted)
+      print_board(word_encrypted)
 
       # Ask for guesses until the user wins or is out of guesses
       loop do
@@ -48,9 +48,9 @@ class Hangman
       end
 
       # Count the number of files in the saved folder
-      filecount = Dir[File.join("saved", '**', '*')].count { |file| File.file?(file) }
+      filecount = Dir[File.join("saved", "**", "*")].count { |file| File.file?(file) }
 
-      #Ask for a valid input until the user's answer is one of the saved files
+      # Ask for a valid input until the user's answer is one of the saved files
       @chosen_file = ""
       all_files = Dir.entries("saved").select { |f| !File.directory? f }
 
@@ -105,6 +105,6 @@ class Hangman
     @game_end = nil
     @length = nil
     @guesses = nil
-    @word_encrpyted = nil
+    @word_encrypted = nil
   end
 end
