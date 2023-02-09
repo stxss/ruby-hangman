@@ -1,0 +1,18 @@
+--- !ruby/object:Hangman
+secret_word: robust
+length: 6
+is_winner: false
+game_end: false
+guesses: 4
+word_encrpyted: ______
+new_encrypted:
+- _
+- _
+- _
+- _
+- s
+- t
+incorrect_letters: []
+type_of_game: '1'
+full_guess:
+- t

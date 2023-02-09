@@ -1,0 +1,17 @@
+---
+secret_word: sperm
+game_end: false
+is_winner: false
+guesses: 3
+new_encrypted:
+- _
+- p
+- e
+- _
+- _
+incorrect_letters:
+- w
+- c
+- i
+full_guess:
+- p

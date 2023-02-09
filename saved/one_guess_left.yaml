@@ -1,0 +1,22 @@
+---
+secret_word: momentum
+game_end: false
+is_winner: false
+guesses: 1
+new_encrypted:
+- _
+- _
+- _
+- e
+- _
+- _
+- _
+- _
+incorrect_letters:
+- q
+- f
+- c
+- r
+- b
+full_guess:
+- b
