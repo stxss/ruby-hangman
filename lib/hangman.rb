@@ -1,14 +1,17 @@
 require "io/console"
 require_relative "logic"
 require_relative "display"
+require_relative "text_styles"
 
 # Class to initiate the game
 class Hangman
   # Include the modules for the game logic and the display
   include GameLogic
   include Display
+  using TextStyles
 
-  attr_accessor :secret_word, :is_winner, :game_end, :response, :guesses, :length, :word_encrpyted, :type_of_game
+  attr_accessor :secret_word, :is_winner, :game_end, :response, :guesses, :length, :word_encrpyted, :new_encrypted, :full_guess,
+    :type_of_game, :incorrect_letters
 
   def initialize
     @secret_word = get_word
@@ -37,7 +40,12 @@ class Hangman
       end
     elsif @type_of_game == "2"
       # If it's 2, load a saved game
-      puts "loading!"
+      puts "Select a file to load the game from:\n\n"
+      Dir.each_child("saved").each_with_index do |i, idx|
+        puts "#{"[#{idx + 1}]".bold.fg_color(:light_blue)} #{i}"
+      end
+
+      load_game(path)
     end
 
     # If the user wins, print a congratulatory message
