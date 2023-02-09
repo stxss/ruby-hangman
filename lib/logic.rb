@@ -115,15 +115,7 @@ module GameLogic
 
   # Method to serialize into the YAML format
   def to_yaml
-    YAML.dump({
-      "secret_word"       => @secret_word,
-      "game_end"          => @is_winner,
-      "is_winner"         => @game_end,
-      "guesses"           => @guesses,
-      "new_encrypted"     => @new_encrypted,
-      "incorrect_letters" => @incorrect_letters,
-      "full_guess"        => @full_guess
-    })
+    YAML.dump(self)
   end
 
   # Method to deserialize and load the game
