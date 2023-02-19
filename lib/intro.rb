@@ -1,6 +1,5 @@
 require_relative "text_styles"
 
-# Class for the introduction
 class Intro
   using TextStyles
   def initialize

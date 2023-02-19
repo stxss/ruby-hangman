@@ -1,4 +1,3 @@
-# Module for the display
 module Display
   def print_board(to_print)
     system("clear")

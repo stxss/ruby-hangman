@@ -1,6 +1,4 @@
-# Applying color and other modifications (like boldness, italic, etc.) and background color to the terminal text
 module TextStyles
-  # Foreground colors
   RGB_COLOR_MAP = {
     black:       "0;0;0",
     white:       "211;215;207",
@@ -35,7 +33,6 @@ module TextStyles
       "\e[48;2;#{rgb_val}m#{self}\e[0m"
     end
 
-    # Other text style modifiers
     def bold
       "\033[1m#{self}\033[0m"
     end
